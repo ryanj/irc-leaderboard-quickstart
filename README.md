@@ -41,7 +41,7 @@ create additional directories if needed.
       please store long term items (like an sqlite database) in the OpenShift
       data directory, which will persist between pushes of your repo.
       The OpenShift data directory is accessible relative to the remote repo
-      directory (../data) or via an environment variable OPENSHIFT_DATA_DIR.
+      directory (../data) or via an environment variable `OPENSHIFT_DATA_DIR`.
 
 
 Environment Variables
@@ -70,22 +70,22 @@ Example for MongoDB:
     process.env.OPENSHIFT_MONGODB_DB_PASSWORD  - NoSQL DB Password
 
 To get a full list of environment variables, simply add a line in your
-.openshift/action_hooks/build script that says "export" and push.
+`.openshift/action_hooks/build script` that says "export" and push.
 
 
 deplist.txt
 ===========
 This functionality has been deprecated and will soon go away.
-package.json is the preferred method to add dependencies.
+`package.json` is the preferred method to add dependencies.
 
 
 package.json
 ============
-npm package descriptor - run "npm help json" for more details.
+npm package descriptor - run `npm help json` for more details.
 
 **Note:** Among other things, this file contains a list of dependencies
       (node modules) to install alongside your application and is processed
-      every time you "git push" to your OpenShift application.
+      every time you `git push` to your OpenShift application.
 
 
 Development Mode
