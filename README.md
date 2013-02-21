@@ -96,7 +96,7 @@ of your javascript files in "development" mode, you can either use the
 hot_deploy marker (see .openshift/markers/README) or add the following to
 package.json.
 
-   "scripts": { "start": "supervisor <relative-path-from-repo-to>/server.js" },
+    "scripts": { "start": "supervisor <relative-path-from-repo-to>/server.js" },
 
 This will run Node with Supervisor - https://npmjs.org/package/supervisor
 
@@ -110,11 +110,11 @@ basic setup - install Node + the npm modules that OpenShift has globally
 installed:
 
  1. Collect some information about the environment on OpenShift.
-   A. Get Node.js version information:
+   * Get Node.js version information:
 
       $ ssh $uuid@$appdns node -v
       
-   B. Get list of globally install npm modules
+   * Get list of globally install npm modules
    
       $ ssh $uuid@$appdns npm list -g
 
