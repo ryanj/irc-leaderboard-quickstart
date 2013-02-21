@@ -60,7 +60,7 @@ environment variables for username, host and password. Example for mysql:
     process.env.OPENSHIFT_MYSQL_DB_USERNAME  - DB Username
     process.env.OPENSHIFT_MYSQL_DB_PASSWORD  - DB Password
 
-When embedding a NoSQL database using 'rhc app cartridge add', you can
+When embedding a NoSQL database using `rhc app cartridge add`, you can
 reference environment variables for username, host and password.
 Example for MongoDB:
 
@@ -110,18 +110,11 @@ basic setup - install Node + the npm modules that OpenShift has globally
 installed:
 
  1. Collect some information about the environment on OpenShift.
-   * Get Node.js version information:
-
-      $ ssh $uuid@$appdns node -v
-      
-   * Get list of globally install npm modules
-   
-      $ ssh $uuid@$appdns npm list -g
-
+   * 1.A - Get Node.js version information: `ssh $uuid@$appdns node -v`
+   * 1.B - Get list of globally install npm modules: `ssh $uuid@$appdns npm list -g`
  2. Ensure that an appropriate version of Node is installed locally.
     This depends on your application. Using the same version would be
     preferable in most cases but your mileage may vary with newer versions.
-
  3. Install the versions of the Node modules you got in step 1.A
     Use -g if you want to install them globally, the better alternative
     though is to install them in the home directory of the currently
