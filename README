@@ -7,6 +7,10 @@ If you have [the latest rhc command-line tools (release 1.3.8 or better)](https:
 
     rhc app create ircbot nodejs-0.6 mongodb-2.2 --from-code=https://github.com/openshift-quickstart/irc-leaderboard-quickstart.git
 
+Unfortunately, [the MongoDB cartridge loads late with this one-liner](https://bugzilla.redhat.com/show_bug.cgi?id=908503), and your node.js code will need to be restarted in order to access the newly-available MongoDB connection details as environment variables:
+
+    rhc app restart ircbot # to reload the connection to MongoDB
+
 Feel free to change or remove this file, it is informational only.
 
 Repo Layout
