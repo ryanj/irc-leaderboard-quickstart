@@ -1,11 +1,11 @@
 This source code goes along with the following node.js IRC bot blog posts:
 
- * https://openshift.redhat.com/community/blogs/nodejs-irc-bots-a-swarming-in-redhats-cloud
- * https://openshift.redhat.com/community/blogs/social-leaderboards-for-irc-nodejs-irc-bots-part-2
+ * https://openshift.redhat.com/community/blogs/building-social-irc-bots-with-nodejs
+ * https://openshift.redhat.com/community/blogs/leaderboards-for-irc-social-nodejs-bots-part-2
 
-If you have [the latest rhc command-line tools (1.3.8)](https://openshift.redhat.com/community/blogs/new-online-features-january-2013#cli), the following line should allow you to clone, provision, train, and summon your own bot all in a single step:
+If you have [the latest rhc command-line tools (release 1.3.8 or better)](https://openshift.redhat.com/community/blogs/new-online-features-january-2013#cli), the following line should allow you to clone, provision, train, and summon your own bot all in a single step:
 
-    rhc app create ircbot nodejs-0.6 mongodb-2.2 --from-code=https://github.com/ryanj/keeprbot.git
+    rhc app create ircbot nodejs-0.6 mongodb-2.2 --from-code=https://github.com/openshift-quickstart/irc-leaderboard-quickstart.git
 
 Feel free to change or remove this file, it is informational only.
 
