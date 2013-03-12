@@ -218,7 +218,6 @@ bot.addListener('message', function(from, to, message) {
             new: true,
             upsert: true
         }, function(err, doc) {
-            console.log(doc);
             bot.say(to, "score: " + doc.score );
         });
     }
