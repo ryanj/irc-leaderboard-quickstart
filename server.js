@@ -4,18 +4,20 @@ var express = require('express');
 var fs      = require('fs');
 
 var irc = require('irc');
-var bot = new irc.Client('chat.freenode.net', process.env.OPENSHIFT_APP_NAME || 'ircbot', {
+var bot_name = process.env.OPENSHIFT_APP_NAME || 'ircbot';
+var bot = new irc.Client('chat.freenode.net', bot_name, {
     channels: ['#botzoo', '#botwar'],
     port: 8001,
     debug: true
 });
 
 var mongojs = require('mongojs');
-var connection_string = process.env.OPENSHIFT_APP_NAME || 'ircbot';
+var connection_string = bot_name;
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
   process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-  process.env.OPENSHIFT_MONGODB_DB_HOST + '/' +
+  process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+  process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
   process.env.OPENSHIFT_APP_NAME;
 }
 var db = mongojs(connection_string, ['scoreboard']);
@@ -210,18 +212,14 @@ bot.addListener('message', function(from, to, message) {
 bot.addListener('message', function(from, to, message) {
     if(  message.indexOf('++') > -1 ){
         var subject = message.slice(0,message.indexOf('++'));
-        db.scoreboard.find({query: {name: subject}}).limit(1, function(err, doc) {
-            if( typeof(doc)=='object' && (doc instanceof Array) && doc[0] && doc[0].name){
-                // update
-                db.scoreboard.update({name: subject}, {$inc:{score:1}}, function(err) {
-                    bot.say(to, "score: " + ( 1 + doc[0].score ));
-                });
-            }else{
-                // insert 
-                db.scoreboard.insert({name: subject, score: 1}, function(err) {
-                    bot.say(to, "score: 1");
-                });
-            }
+        db.scoreboard.findAndModify({
+            query: { name: subject },
+            update: { $inc: { score:1 }},
+            new: true,
+            upsert: true
+        }, function(err, doc) {
+            console.log(doc);
+            bot.say(to, "score: " + doc.score );
         });
     }
 });

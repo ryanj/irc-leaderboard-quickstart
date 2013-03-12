@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "irc": "~0.3.6",
-    "mongojs": "~0.5.1"
+    "mongojs": "~0.5.1",
+    "express": "~3.1.0"
   },
   "devDependencies": {},
   "bundleDependencies": [],
