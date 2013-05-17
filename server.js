@@ -2,9 +2,16 @@
 //  OpenShift sample Node application
 var express = require('express');
 var fs      = require('fs');
-
 var irc = require('irc');
 var bot_name = process.env.OPENSHIFT_APP_NAME || 'ircbot';
+var connection_string = bot_name;
+
+if(process.env.OPENSHIFT_APP_UUID && process.env.OPENSHIFT_GEAR_UUID && 
+   process.env.OPENSHIFT_APP_UUID !== process.env.OPENSHIFT_GEAR_UUID)
+{
+   bot_name = process.env.OPENSHIFT_GEAR_UUID;  
+}
+
 var bot = new irc.Client('chat.freenode.net', bot_name, {
     channels: ['#botzoo', '#botwar'],
     port: 8001,
@@ -12,7 +19,6 @@ var bot = new irc.Client('chat.freenode.net', bot_name, {
 });
 
 var mongojs = require('mongojs');
-var connection_string = bot_name;
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
   connection_string = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
   process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
@@ -223,7 +229,9 @@ bot.addListener('message', function(from, to, message) {
     }
 });
 bot.addListener('message', function(from, to, message) {
-    if(  message.indexOf('scoreboard') > -1 ){
+    if(  message.indexOf('scoreboard') > -1 
+      && message.indexOf(bot_name) > -1)
+    {
         db.scoreboard.find().sort({score:-1}).limit(10).forEach(function(err, doc){
             if (doc && doc.name && doc.score ) {
                 bot.say(to, doc.name + ": " + doc.score);
