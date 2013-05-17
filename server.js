@@ -3,8 +3,11 @@
 var express = require('express');
 var fs      = require('fs');
 var irc = require('irc');
+var openshift = require('openshift');
+var shift_app = openshift();
 var bot_name = process.env.OPENSHIFT_APP_NAME || 'ircbot';
 var connection_string = bot_name;
+var _ = require('underscore');
 
 if(process.env.OPENSHIFT_APP_UUID && process.env.OPENSHIFT_GEAR_UUID && 
    process.env.OPENSHIFT_APP_UUID !== process.env.OPENSHIFT_GEAR_UUID)
@@ -226,6 +229,26 @@ bot.addListener('message', function(from, to, message) {
         }, function(err, doc) {
             bot.say(to, "score: " + doc.score );
         });
+    }
+});
+// When a sibling says hello, respond with "'sup, bro".
+bot.addListener('message', function(from, to, message) {
+    if(  message.indexOf('hello') > 0 ){
+      siblings = shift_app.refresh_groups( function(results){
+        console.log('hello message from:' + from);
+        _.each(siblings, function(sibling){
+          if( sibling.indexOf(from) > -1 ){
+            bot.say(to, from + ": sup bro" );
+          }
+        });
+      });
+    }
+});
+bot.addListener('message', function(from, to, message) {
+    if(  message.indexOf('say') > -1 
+      && message.indexOf(bot_name) > -1)
+    {
+      bot.say(to, message.substr( message.indexOf(' say ') + 5 ));
     }
 });
 bot.addListener('message', function(from, to, message) {
